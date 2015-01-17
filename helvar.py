@@ -25,7 +25,7 @@ class HelvarNet:
     def __t_func(self, weakself, _):
         while (self.__running):
             time.sleep(1)
-            if weakself() is None:
+            if weakself is None:
                 break
             self.__keepalive()
     def __exit__(self):
