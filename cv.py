@@ -39,27 +39,30 @@ while(True):
     movement_frame = 1 - (cv2.add(-gray, prev_frame))
     _, bin_frame = cv2.threshold(movement_frame, 10, 50, cv2.THRESH_BINARY)
     prev_frame = gray
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+
 
     cont_frame = bin_frame.copy()
     conts = find_contours(cont_frame)
     segments = {}
+
     for c in conts:
         rect = cv2.boundingRect(c)
         if cv2.contourArea(c) > 100:
             cv2.rectangle(movement_frame, (rect[0], rect[1]), 
                           (rect[0] + rect[2], rect[1] + rect[3]), (255, 0, 0))
-            """print(rect)
-            print(5 * center(rect)[0] / movement_frame.shape[1])
-            leds[5 * center(rect)[0] / movement_frame.shape[1]].set(50, 100)"""
             segments[5 * center(rect)[0] / movement_frame.shape[1]] = True
+
     time.sleep(0.05)
+
     leds_off()
     for segment in segments:
         leds[segment].set(50, 100)
+
     cv2.drawContours(movement_frame, conts, -1, (255, 255, 0), 1)
     cv2.imshow('frame', movement_frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
     
 cap.release()
 cv2.destroyAllWindows()
