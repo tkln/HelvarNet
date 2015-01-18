@@ -1,4 +1,4 @@
-#!/usr/bin/python3.4
+#!/usr/bin/python3
 import http.server
 import socketserver
 import helvar
@@ -26,20 +26,12 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
     def do_GET(self):
         req = self.__parse_url()
-        try:
-            if (req['base'] == 'lamp'):
-                leds[req['id']].set(req['level'], req['fade_time'])
-            self.send_response(200)
-        except:
-            print("oops:", req)
-            self.send_response(501)
+        if (req['base'] == 'lamp'):
+            leds[req['id']].set(req['level'], req['fade_time'])
+        self.send_response(200)
         self.send_header("Content-type", "text/html")
         self.end_headers()
         #self.wfile.close()
-
-
-    def lel(self):
-        pass
 
 PORT = 8002
 

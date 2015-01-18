@@ -10,7 +10,8 @@ class HelvarNet:
     def __init__(self, ip, port):
         self.__s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.__s.connect((ip, port))
-        self.__t = threading.Thread(target = self.__t_func, args = (self, weakref.ref(self)))
+        self.__t = threading.Thread(target = self.__t_func,
+                                    args = (self, weakref.ref(self)))
         self.__lock = threading.RLock()
         self.__running = True
         self.__t.start()
@@ -39,14 +40,14 @@ class LedUnit:
         self.__net.set_direct_level(self.__addr, level, fade_time)
 
 if __name__ == "__main__":
-    #helvarNet = HelvarNet('10.254.1.2', 50000)        
+    helvarNet = HelvarNet('10.254.1.2', 50000)        
     leds = []
-    with HelvarNet('10.254.1.2', 50000) as helvarNet:
-        leds = [LedUnit(helvarNet, '1.2.1.1'),
-                LedUnit(helvarNet, '1.2.1.2'),
-                LedUnit(helvarNet, '1.2.1.3'),
-                LedUnit(helvarNet, '1.2.1.4'),
-                LedUnit(helvarNet, '1.2.1.5')]
+    #helvarNet = HelvarNet('10.254.1.2', 50000) 
+    leds = [LedUnit(helvarNet, '1.2.1.1'),
+            LedUnit(helvarNet, '1.2.1.2'),
+            LedUnit(helvarNet, '1.2.1.3'),
+            LedUnit(helvarNet, '1.2.1.4'),
+            LedUnit(helvarNet, '1.2.1.5')]
     i = 0
     while (1):
         for i in range(5):
